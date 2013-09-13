@@ -1,0 +1,35 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping package="org.tom.tutorials.WebApp.domain">
+
+    <class name="Person" table="PERSON">
+        <id name="id" column="PERSON_ID">
+            <generator class="native"/>
+        </id>
+        <property name="age"/>
+        <property name="first"/>
+        <property name="middle"/>
+        <property name="last"/>
+    
+        <set name="events" table="PERSON_EVENT">
+          <key column="PERSON_ID"/>
+          <many-to-many column="EVENT_ID" class="Event"/>
+        </set>
+    
+        <set name="emails" table="PERSON_EMAIL_ADDR">
+           <key column="PERSON_ID"/>
+           <element type="string" column="EMAIL_ADDR"/>
+        </set>
+    
+        <set name="addresses" table="PERSON_ADDRESS">
+           <key column="PERSON_ID"/>
+           <many-to-many column="ADDRESS_ID" class="Address"/>
+        </set>
+        
+        <set name="phones" table="PERSON_PHONE">
+           <key column="PERSON_ID"/>
+           <many-to-many column="PHONE_ID" class="Phone"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,14 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping package="org.tom.tutorials.WebApp.domain">
+
+    <class name="Phone" table="PHONE">
+        <id name="id" column="PHONE_ID">
+            <generator class="native"/>
+        </id>
+        <property name="date" type="timestamp" column="EVENT_DATE"/>
+        <property name="area"/>
+        <property name="zone"/>
+        <property name="local"/>
+    </class>
+
+</hibernate-mapping>
