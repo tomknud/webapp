@@ -35,44 +35,48 @@ public class AddressAdorned extends Address {
 			return new AddressAdorned();
 		}
 	}
-	
-	public static void listTable(Session session, PrintWriter out){
-		List<Address> result = session.createCriteria(Address.class).list();
-		if (result.size() > 0) {
-			out.println("<h2>Addressess in database:</h2>");
-			out.println("<table border='1'>");
-			AddressAdorned.publishHeader(out);
-			for (Address address : result) {
-				AddressAdorned.get(address).publishRow(out);
-			}
-			out.println("</table>");
-		}
-	}
 
-	public static void publishForm(PrintWriter out) {
-		out.println("<h2>Add new address:</h2>");
-		out.println("<form>");
-		out.println("Line One: <input name='addressOne' length='50'/><br/>");
-		out.println("Line Two: <input name='addressTwo' length='50'/><br/>");
-		out.println("City: <input name='addressTown' length='20'/><br/>");
-		out.println("State: <input name='addressState' length='10'/><br/>");
-		out.println("Zip: <input name='addressZip' length='10'/><br/>");
-		out.println("<input type='submit' name='action' value='storeAddress'/>");
-		out.println("</form>");
-	}
+  public static void listTable(Session session, PrintWriter out){
+    List<Address> result = session.createCriteria(Address.class).list();
+    if (result.size() > 0) 
+    {
+      out.println("<h2>Addressess in database:</h2>");
+      out.println("<table border='1'>");
+      AddressAdorned.publishHeader(out);
+      for (Address address : result) {
+        AddressAdorned.get(address).publishRow(out);
+      }
+      out.println("</table>");
+    }
+  }
+
+  public static void publishForm(PrintWriter out) 
+  {
+    out.println("<h2>Add new address:</h2>");
+    out.println("<form>");
+    out.println("Line One: <input name='addressOne' length='50'/><br/>");
+    out.println("Line Two: <input name='addressTwo' length='50'/><br/>");
+    out.println("City    : <input name='addressTown' length='20'/><br/>");
+    out.println("State   : <input name='addressState' length='10'/><br/>");
+    out.println("Zip     : <input name='addressZip' length='10'/><br/>");
+    out.println("Country : <input name='addressCountry. length='20'/><br/>");
+    out.println("<input type='submit' name='action' value='storeAddress'/>");
+    out.println("</form>");
+  }
   public static JPanel createForm(JTextArea tResultIn)
   {
     JPanel addressInput = new JPanel();
-    final JTextArea tOne = new JTextArea(1,12);
-    final JTextArea tTwo = new JTextArea(1,2);
-    final JTextArea tTown = new JTextArea(1,12);
-    final JTextArea tState = new JTextArea(1,12);
-    final JTextArea tZip = new JTextArea(1,12);
+    final JTextArea tOne = new JTextArea(1,20);
+    final JTextArea tTwo = new JTextArea(1,20);
+    final JTextArea tTown = new JTextArea(1,20);
+    final JTextArea tState = new JTextArea(1,20);
+    final JTextArea tZip = new JTextArea(1,11);
+    final JTextArea tCountry = new JTextArea(1,20);
     final JTextArea tResult = tResultIn;
     JButton bSubmit = new JButton();
     bSubmit.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e) {
-        createAndStoreAddress(tOne.getText(), tTwo.getText(),tTown.getText(),tState.getText(),tZip.getText());
+        createAndStoreAddress(tOne.getText(), tTwo.getText(),tTown.getText(),tState.getText(),tZip.getText(),tCountry.getText());
         tResult.setText(tOne.getText() +" "+ tTwo.getText()+" age "+tState.getText());
       }
     });
@@ -80,6 +84,8 @@ public class AddressAdorned extends Address {
     addressInput.add(tTwo);
     addressInput.add(tTown);
     addressInput.add(tState);
+    addressInput.add(tZip);
+    addressInput.add(tCountry);
     addressInput.add(bSubmit);
     return addressInput;
   }
@@ -90,6 +96,7 @@ public class AddressAdorned extends Address {
 		out.println("<td>" + getTown() + "</td>");
 		out.println("<td>" + getState() + "</td>");
 		out.println("<td>" + getZip() + "</td>");
+		out.println("<td>" + getCountry() + "</td>");
 		out.println("<td>" + SimpleDateFormat.getInstance().format(getDate()) + "</td>");
 		out.println("</tr>");
 	}
@@ -102,6 +109,7 @@ public class AddressAdorned extends Address {
 		out.println("<th>Address City</th>");
 		out.println("<th>Address State</th>");
 		out.println("<th>Address Zip</th>");
+		out.println("<th>Address Country</th>");
 		out.println("<th>Date Added</th>");
 		out.println("</tr>");
 	}
@@ -130,11 +138,12 @@ public class AddressAdorned extends Address {
 		theAddress.setTown(request.getParameter("addressTown"));
 		theAddress.setState(request.getParameter("addressState"));
 		theAddress.setZip(request.getParameter("addressZip"));
+		theAddress.setCountry(request.getParameter("addressCountry"));
 		HibernateUtil.getSessionFactory().getCurrentSession().save(theAddress);
 		return get(theAddress);
 	}
 	
-	public static void createAndStoreAddress(String one, String two, String town, String state, String zip) {
+	public static void createAndStoreAddress(String one, String two, String town, String state, String zip, String country) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		Address theAddress = new Address();
@@ -143,6 +152,7 @@ public class AddressAdorned extends Address {
 		theAddress.setTown(town);
 		theAddress.setState(state);
 		theAddress.setZip(zip);
+		theAddress.setCountry(country);
 		session.save(theAddress);
 		session.getTransaction().commit();
 	}
