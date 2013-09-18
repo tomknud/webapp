@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.tom.tutorials.WebApp.domain.AddressAdorned;
 import org.tom.tutorials.WebApp.domain.Event;
 import org.tom.tutorials.WebApp.domain.Person;
 import org.tom.tutorials.WebApp.domain.PersonAdorned;
@@ -24,6 +26,7 @@ public class EventManager {
 		JFrame frame = new JFrame();
 		JPanel personInput = new JPanel();
 		JPanel total = new JPanel();
+		total.setLayout(new BoxLayout(total, BoxLayout.Y_AXIS));
 		final JTextArea tFirst = new JTextArea(1,12);
 		final JTextArea tMiddle = new JTextArea(1,2);
 		final JTextArea tLast = new JTextArea(1,12);
@@ -42,6 +45,7 @@ public class EventManager {
 		personInput.add(tAge);
 		personInput.add(bSubmit);
 		total.add(personInput);
+		total.add(AddressAdorned.createForm(tResult));
 		total.add(tResult);
 		frame.add(total);
 		frame.pack();

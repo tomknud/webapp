@@ -1,11 +1,16 @@
 package org.tom.tutorials.WebApp.domain;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import org.hibernate.Session;
 import org.tom.tutorials.WebApp.util.HibernateUtil;
@@ -55,7 +60,29 @@ public class AddressAdorned extends Address {
 		out.println("<input type='submit' name='action' value='storeAddress'/>");
 		out.println("</form>");
 	}
-
+  public static JPanel createForm(JTextArea tResultIn)
+  {
+    JPanel addressInput = new JPanel();
+    final JTextArea tOne = new JTextArea(1,12);
+    final JTextArea tTwo = new JTextArea(1,2);
+    final JTextArea tTown = new JTextArea(1,12);
+    final JTextArea tState = new JTextArea(1,12);
+    final JTextArea tZip = new JTextArea(1,12);
+    final JTextArea tResult = tResultIn;
+    JButton bSubmit = new JButton();
+    bSubmit.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e) {
+        createAndStoreAddress(tOne.getText(), tTwo.getText(),tTown.getText(),tState.getText(),tZip.getText());
+        tResult.setText(tOne.getText() +" "+ tTwo.getText()+" age "+tState.getText());
+      }
+    });
+    addressInput.add(tOne);
+    addressInput.add(tTwo);
+    addressInput.add(tTown);
+    addressInput.add(tState);
+    addressInput.add(bSubmit);
+    return addressInput;
+  }
 	public void publishRow(PrintWriter out) {
 		out.println("<tr>");
 		out.println("<td>" + getLineOne() + "</td>");
@@ -105,6 +132,19 @@ public class AddressAdorned extends Address {
 		theAddress.setZip(request.getParameter("addressZip"));
 		HibernateUtil.getSessionFactory().getCurrentSession().save(theAddress);
 		return get(theAddress);
+	}
+	
+	public static void createAndStoreAddress(String one, String two, String town, String state, String zip) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Address theAddress = new Address();
+		theAddress.setLineOne(one);
+		theAddress.setLineTwo(two);
+		theAddress.setTown(town);
+		theAddress.setState(state);
+		theAddress.setZip(zip);
+		session.save(theAddress);
+		session.getTransaction().commit();
 	}
 
 }
