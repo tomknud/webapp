@@ -97,5 +97,35 @@ public class Address {
   public void setZip(String zip) {
     this.zip = zip;
   }
-    
+  
+  @Override
+  public boolean equals(Object object) {
+    boolean result = true;
+    Address address = (Address)object;
+	if( id != address.id || 
+	!lineOne.equals(address.lineOne) || 
+	!lineTwo.equals(address.lineTwo) || 
+	!town.equals(address.town) || 
+	!state.equals(address.state) || 
+	!country.equals(address.country) || 
+	!zip.equals(address.zip) || 
+	!date.equals(address.date))
+	{
+		result = false;
+	}
+	return result;
+  }
+  @Override
+  public int hashCode()
+  {
+    int result = 
+    lineOne.hashCode()+
+    lineTwo.hashCode()+
+    town.hashCode()+
+    state.hashCode()+
+    country.hashCode()+
+    zip.hashCode()+
+    date.hashCode();
+    return result;
+  }
 }
