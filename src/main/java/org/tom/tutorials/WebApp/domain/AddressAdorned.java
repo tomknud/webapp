@@ -49,8 +49,9 @@ public class AddressAdorned extends Address {
 		out.println("<form>");
 		out.println("Line One: <input name='addressOne' length='50'/><br/>");
 		out.println("Line Two: <input name='addressTwo' length='50'/><br/>");
-		out.println("City: <input name='addressTown' length='50'/><br/>");
-		out.println("State: <input name='addressState' length='50'/><br/>");
+		out.println("City: <input name='addressTown' length='20'/><br/>");
+		out.println("State: <input name='addressState' length='10'/><br/>");
+		out.println("Zip: <input name='addressZip' length='10'/><br/>");
 		out.println("<input type='submit' name='action' value='storeAddress'/>");
 		out.println("</form>");
 	}
@@ -61,6 +62,7 @@ public class AddressAdorned extends Address {
 		out.println("<td>" + getLineTwo() + "</td>");
 		out.println("<td>" + getTown() + "</td>");
 		out.println("<td>" + getState() + "</td>");
+		out.println("<td>" + getZip() + "</td>");
 		out.println("<td>" + SimpleDateFormat.getInstance().format(getDate()) + "</td>");
 		out.println("</tr>");
 	}
@@ -72,7 +74,8 @@ public class AddressAdorned extends Address {
 		out.println("<th>Address Line Two</th>");
 		out.println("<th>Address City</th>");
 		out.println("<th>Address State</th>");
-		out.println("<th>Event date</th>");
+		out.println("<th>Address Zip</th>");
+		out.println("<th>Date Added</th>");
 		out.println("</tr>");
 	}
 
@@ -99,6 +102,7 @@ public class AddressAdorned extends Address {
 		theAddress.setLineTwo(request.getParameter("addressTwo"));
 		theAddress.setTown(request.getParameter("addressTown"));
 		theAddress.setState(request.getParameter("addressState"));
+		theAddress.setZip(request.getParameter("addressZip"));
 		HibernateUtil.getSessionFactory().getCurrentSession().save(theAddress);
 		return get(theAddress);
 	}
