@@ -8,8 +8,8 @@ public class Address {
   private String lineTwo;
   private String town;
   private String state;
-  private String country;
   private String zip;
+  private String country;
   private Date   date;
   
   public Address()
@@ -109,7 +109,7 @@ public class Address {
 	!state.equals(address.state) || 
 	!country.equals(address.country) || 
 	!zip.equals(address.zip) || 
-	!date.equals(address.date))
+	!country.equals(address.country))
 	{
 		result = false;
 	}
@@ -119,13 +119,12 @@ public class Address {
   public int hashCode()
   {
     int result = 
-    lineOne.hashCode()+
-    lineTwo.hashCode()+
-    town.hashCode()+
-    state.hashCode()+
-    country.hashCode()+
-    zip.hashCode()+
-    date.hashCode();
+    lineOne.hashCode() +
+    lineTwo.hashCode() +
+    town.hashCode() +
+    state.hashCode() +
+    zip.hashCode() +
+    country.hashCode();
     return result;
   }
 }
