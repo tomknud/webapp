@@ -2,6 +2,8 @@ package org.tom.tutorials.WebApp;
 
 import org.hibernate.Session;
 
+import java.awt.Dimension;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -11,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.tom.tutorials.WebApp.domain.AddressAdorned;
@@ -24,31 +27,16 @@ public class EventManager {
 	public static void main(String[] args) {
 		final EventManager mgr = new EventManager();
 		JFrame frame = new JFrame();
-		JPanel personInput = new JPanel();
 		JPanel total = new JPanel();
 		total.setLayout(new BoxLayout(total, BoxLayout.Y_AXIS));
-		final JTextArea tFirst = new JTextArea(1,12);
-		final JTextArea tMiddle = new JTextArea(1,2);
-		final JTextArea tLast = new JTextArea(1,12);
-		final JTextArea tAge = new JTextArea(1,12);
 		final JTextArea tResult = new JTextArea(3,36);
-		JButton bSubmit = new JButton();
-		bSubmit.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				PersonAdorned.createAndStorePerson(tFirst.getText(), tMiddle.getText(),tLast.getText(),tAge.getText());
-				tResult.setText(tFirst.getText() +" "+ tMiddle.getText()+" age "+tAge.getText());
-			}
-		});
-		personInput.add(tFirst);
-		personInput.add(tMiddle);
-		personInput.add(tLast);
-		personInput.add(tAge);
-		personInput.add(bSubmit);
-		total.add(personInput);
+		final JScrollPane vResult = new JScrollPane();
+		vResult.setViewportView(tResult);
+		total.add(PersonAdorned.createForm(tResult));
 		total.add(AddressAdorned.createForm(tResult));
-		total.add(tResult);
+		total.add(vResult);
 		frame.add(total);
-		frame.pack();
+		frame.setSize(new Dimension(512,512));
 		frame.setVisible(true);
 	}
 

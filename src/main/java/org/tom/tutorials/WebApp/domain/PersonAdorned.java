@@ -1,10 +1,21 @@
 package org.tom.tutorials.WebApp.domain;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import org.hibernate.Session;
 import org.tom.tutorials.WebApp.util.HibernateUtil;
@@ -51,6 +62,37 @@ public class PersonAdorned extends Person {
 			out.println("</table>");
 		}
 	}
+	
+  public static JPanel createForm(JTextArea tResultIn)
+  {
+    JPanel addressInput = new JPanel();
+    final JTextArea tFirst = new JTextArea(1,20);
+    final JTextArea tMiddle = new JTextArea(1,20);
+    final JTextArea tLast = new JTextArea(1,20);
+    final JTextArea tAge = new JTextArea(1,3);
+    final JTextArea tResult = tResultIn;
+    JButton bSubmit = new JButton();
+    bSubmit.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e) {
+        createAndStorePerson(tFirst.getText(), tMiddle.getText(),tLast.getText(),tAge.getText());
+        tResult.setText("First: "+tFirst.getText() +" M: "+ tMiddle.getText()+" Last: "+ tLast.getText()+" age: "+tAge.getText());
+      }
+    });
+    addressInput.add(tFirst);
+    addressInput.add(tMiddle);
+    addressInput.add(tLast);
+    addressInput.add(tAge);
+    addressInput.add(bSubmit);
+    PrintWriter pw = null;
+    StringWriter sw = new StringWriter();
+    pw = new PrintWriter(sw);
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	session.beginTransaction();
+    listTable(session,pw);
+    tResult.setText(sw.getBuffer().toString());
+    session.getTransaction().commit();
+    return addressInput;
+  }
 
 	public static void publishForm(PrintWriter out) {
 		out.println("<h2>Add new person:</h2>");
@@ -107,12 +149,12 @@ public class PersonAdorned extends Person {
 		}
 	}
 
-	public static void createAndStorePerson(String personFirst, String string, String personLast, String personAge) {
+	public static void createAndStorePerson(String personFirst, String personMiddle, String personLast, String personAge) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		Person thePerson = new Person();
 		thePerson.setFirst(personFirst);
-		thePerson.setMiddle(personFirst);
+		thePerson.setMiddle(personMiddle);
 		thePerson.setLast(personLast);
 		thePerson.setAge(Integer.parseInt(personAge));
 		session.save(thePerson);

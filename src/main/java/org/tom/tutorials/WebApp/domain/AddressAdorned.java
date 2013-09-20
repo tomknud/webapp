@@ -63,6 +63,7 @@ public class AddressAdorned extends Address {
     out.println("<input type='submit' name='action' value='storeAddress'/>");
     out.println("</form>");
   }
+  
   public static JPanel createForm(JTextArea tResultIn)
   {
     JPanel addressInput = new JPanel();
@@ -89,18 +90,20 @@ public class AddressAdorned extends Address {
     addressInput.add(bSubmit);
     return addressInput;
   }
-	public void publishRow(PrintWriter out) {
-		out.println("<tr>");
-		out.println("<td>" + getLineOne() + "</td>");
-		out.println("<td>" + getLineTwo() + "</td>");
-		out.println("<td>" + getTown() + "</td>");
-		out.println("<td>" + getState() + "</td>");
-		out.println("<td>" + getZip() + "</td>");
-		out.println("<td>" + getCountry() + "</td>");
-		out.println("<td>" + SimpleDateFormat.getInstance().format(getDate()) + "</td>");
-		out.println("</tr>");
-	}
-	
+  
+  public void publishRow(PrintWriter out) 
+  {
+out.println("<tr>");
+out.println("<td>" + getLineOne() + "</td>");
+out.println("<td>" + getLineTwo() + "</td>");
+out.println("<td>" + getTown() + "</td>");
+out.println("<td>" + getState() + "</td>");
+out.println("<td>" + getZip() + "</td>");
+out.println("<td>" + getCountry() + "</td>");
+out.println("<td>" + SimpleDateFormat.getInstance().format(getDate()) + "</td>");
+out.println("</tr>");
+  }
+
 	public static void publishHeader(PrintWriter out)
 	{
 		out.println("<tr>");
